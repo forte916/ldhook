@@ -1,0 +1,39 @@
+README
+======
+  This is a POC of userland hook using LD_PRELOAD.
+
+
+Prepare Sqlite3
+---------------
+	Ubuntu
+	$ sudo apt-get install sqlite3 libsqlite3-dev
+
+
+Build and test on localhost
+-----------------------------
+	$ make
+	$ make run
+
+
+Cross compile and test on target
+------------------------------------
+  1. Set CROSS_COMPILE properly in Makefile.
+
+  2. Build a package
+	$ make package
+
+  3. Copy package to target
+	ex.) $ scp ldhook.tgz root@hostname:/tmp
+
+  4. Type following command to test on target
+	# tar zxvf ldhook.tgz
+	# ./test.sh
+
+
+How to integrate to smbd(samba)
+-------------------------------
+  1. find samba's init script which is usually located under /etc/init.d/
+  2. modify samba's init script to add "LD_PRELOAD=/path/to/ldhook.so"
+  3. restart samba (ex. /etc/init.d/smb.sh restart)
+  4. copy a file from other PC to host PC through samba
+
